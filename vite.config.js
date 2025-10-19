@@ -6,5 +6,5 @@ export default defineConfig({
   plugins: [react(),
     tailwindcss(),
   ],
-  base: '/todo-app/', // Your repo name
+  base: '/', // Your repo name
 });
