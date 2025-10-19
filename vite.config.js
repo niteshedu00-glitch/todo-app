@@ -1,7 +1,10 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
-  plugins: [react()],
-  base: '/todo-app/', // Your repo name
+  plugins: [react(),
+    tailwindcss(),
+  ],
+  base: '/', // Your repo name
 });

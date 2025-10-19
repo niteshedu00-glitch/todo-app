@@ -1,35 +1,42 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import TodoInput from "./components/TodoInput";
+import TodoList from "./components/TodoList";
+import TaskWork from "./components/TaskWork";
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+  const [todos, setTodos] = useState([]);
+
+  const updateProgress = (updatedTask, value) => {
+    setTodos(
+      todos.map((todo) =>
+        todo.task === updatedTask.task ? { ...todo, progress: value } : todo
+      )
+    );
+  };
+
+  const addTodo = (task) => {
+    setTodos([...todos, { task, progress: 0, due: "2025-10-25" }]);
+  };
+
+  const deleteTodo = (index) => {
+    setTodos(todos.filter((_, i) => i !== index));
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <Router>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<TodoList todos={todos} deleteTodo={deleteTodo} />} />
+        <Route path="/input" element={<TodoInput addTodo={addTodo} />} />
+        <Route
+          path="/task"
+          element={<TaskWork todo={todos[0]} updateProgress={updateProgress} />}
+        />
+      </Routes>
+    </Router>
+  );
+};
 
-export default App
+export default App;
